@@ -43,7 +43,7 @@ function GridConfig() {
                             <ListItemIcon>
                                 <SpeedIcon />
                             </ListItemIcon>
-                            <Box sx={{ width: 300 }}>
+                            <Box edge="end" sx={{ width: 300 }}>
                                 <Slider
                                     aria-label="Temperature"
                                     defaultValue={30}
@@ -56,8 +56,9 @@ function GridConfig() {
                             <ListItemIcon>
                                 <ZoomInIcon />
                             </ListItemIcon>
-                            <Box sx={{ width: 300 }}>
+                            <Box edge="end" sx={{ width: 300 }}>
                                 <Slider
+                                    edge='end'
                                     aria-label="Temperature"
                                     defaultValue={30}
                                     color="secondary"
