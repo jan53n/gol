@@ -1,24 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { AppBar, Container, CssBaseline, Toolbar, Typography } from '@mui/material';
+import GridOnIcon from '@mui/icons-material/GridOn';
+import Grid from './Grid';
+
+const theme = createTheme();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AppBar position="relative">
+        <Toolbar>
+          <GridOnIcon sx={{ mr: 2 }} />
+          <Typography variant="h6" color="inherit" noWrap>
+            GOL
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Container maxWidth='xl'>
+        <Grid></Grid>
+      </Container>
+    </ThemeProvider>
   );
 }
 
