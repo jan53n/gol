@@ -1,3 +1,4 @@
+import './GridConfig.css';
 import { Box, Dialog, DialogContent, Divider, IconButton, List, ListItem, ListItemIcon, Slider, Tooltip } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";

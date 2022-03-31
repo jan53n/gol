@@ -1,3 +1,5 @@
+import './Cell.css';
+
 function Cell({ row, column }) {
     return (<div style={{ backgroundColor: 'yellow', gridColumn: column, gridRow: row }}></div>);
 }
