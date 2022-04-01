@@ -1,6 +1,5 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
-
-const [ZOOM_MIN, ZOOM_MAX, ZOOM_DEFAULT] = [0, 100, 0];
+import { ZOOM_DEFAULT } from './config';
 
 const zoomSlice = createSlice({
     name: 'zoom',
@@ -13,8 +12,6 @@ const zoomSlice = createSlice({
         },
     }
 });
-
-export { ZOOM_DEFAULT, ZOOM_MIN, ZOOM_MAX };
 
 export const { zoomTo } = zoomSlice.actions;
 

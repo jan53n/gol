@@ -1,5 +1,8 @@
 .toolbar {
-    max-width: 520px;
+    position: absolute;
+    max-width: 310px;
+    bottom: 0;
+    right: 0;
+    left: 0;
     margin: 0 auto 20px auto;
-    position: relative;
 }

@@ -1,6 +1,6 @@
 import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { AppBar, Container, CssBaseline, Toolbar, Typography } from '@mui/material';
+import { AppBar, CssBaseline, Toolbar, Typography } from '@mui/material';
 import GridOnIcon from '@mui/icons-material/GridOn';
 import Grid from './components/Grid';
 
@@ -18,9 +18,7 @@ function App() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Container maxWidth={false}>
-        <Grid></Grid>
-      </Container>
+      <Grid></Grid>
     </ThemeProvider>
   );
 }

@@ -1,9 +1,9 @@
 .grid {
     display: grid;
-    margin: 15px;
     grid-gap: 2px;
     overflow: scroll;
-    height: 600px;
+    width: 100%;
+    height: calc(100vh - 64px);
     padding: 2px;
     background-color: #999999;
 }

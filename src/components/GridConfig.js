@@ -2,14 +2,15 @@ import './GridConfig.css';
 import { Box, Dialog, DialogContent, Divider, IconButton, List, ListItem, ListItemIcon, Slider, Tooltip } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { zoomTo, ZOOM_MAX, ZOOM_MIN } from "../store";
+import { zoomTo } from '../store';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SpeedIcon from '@mui/icons-material/Speed';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import { ZOOM_MAX, ZOOM_MIN } from '../config';
 
 function GridConfig() {
     const [open, setOpen] = React.useState(false);
-    const zoom = useSelector(state => state.zoom.value);
+    const zoomOutValue = useSelector(state => state.zoom.value);
     const dispatch = useDispatch();
     const handleZoomSliderChange = (_e, value) => {
         dispatch(zoomTo(value));
@@ -30,11 +31,9 @@ function GridConfig() {
                             </ListItemIcon>
                             <Box edge="end" sx={{ width: 300 }}>
                                 <Slider
-                                    onChange={handleZoomSliderChange}
-                                    min={ZOOM_MIN}
-                                    max={ZOOM_MAX}
+                                    edge='end'
                                     aria-label="Temperature"
-                                    value={zoom}
+                                    defaultValue={30}
                                     color="secondary"
                                 />
                             </Box>
@@ -46,14 +45,15 @@ function GridConfig() {
                             </ListItemIcon>
                             <Box edge="end" sx={{ width: 300 }}>
                                 <Slider
-                                    edge='end'
+                                    onChange={handleZoomSliderChange}
+                                    min={ZOOM_MIN}
+                                    max={ZOOM_MAX}
                                     aria-label="Temperature"
-                                    defaultValue={30}
+                                    value={zoomOutValue}
                                     color="secondary"
                                 />
                             </Box>
                         </ListItem>
-                        <Divider />
                     </List>
                 </DialogContent>
             </Dialog>
