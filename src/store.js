@@ -7,7 +7,7 @@ const zoomSlice = createSlice({
         value: ZOOM_DEFAULT
     },
     reducers: {
-        setSpeed: (state, action) => {
+        zoomTo: (state, action) => {
             state.value = action.payload;
         },
     }
@@ -19,7 +19,7 @@ const speedSlice = createSlice({
         value: SPEED_DEFAULT
     },
     reducers: {
-        zoomTo: (state, action) => {
+        setSpeed: (state, action) => {
             state.value = action.payload;
         },
     }

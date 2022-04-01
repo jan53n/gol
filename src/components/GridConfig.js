@@ -41,7 +41,7 @@ function GridConfig() {
                                     onChange={handleSpeedSliderChange}
                                     min={SPEED_MIN}
                                     max={SPEED_MAX}
-                                    defaultValue={speedValue}
+                                    value={speedValue}
                                     color="secondary"
                                 />
                             </Box>
