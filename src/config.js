@@ -6,3 +6,5 @@ export const ZOOM_DEFAULT = 40;
 export const SPEED_DEFAULT = 500;
 export const SPEED_MAX = 1000;
 export const SPEED_MIN = 100;
+export const HISTORY_SIZE = 10;
+export const [PLAYER_PLAY, PLAYER_PAUSE, PLAYER_NEXT, PLAYER_PREV, PLAYER_RESET] = [1, 2, 3, 4, 5, 6];
