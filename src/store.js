@@ -1,5 +1,5 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
-import { PLAYER_PAUSE, SPEED_DEFAULT, ZOOM_DEFAULT } from './config';
+import { PLAYER_PAUSE, PLAYER_PLAY, PLAYER_PREV, PLAYER_NEXT, SPEED_DEFAULT, ZOOM_DEFAULT, PLAYER_RESET } from './config';
 
 const zoomSlice = createSlice({
     name: 'zoom',
@@ -45,8 +45,9 @@ const diffSlice = createSlice({
         history: [],
     },
     reducers: {
-        setDiff: (state, { payload: { add, remove } }) => {
-            [state.add, state.remove] = [add, remove];
+        setDiff: (state, action) => {
+            state.add = action.payload.add;
+            state.remove = action.payload.remove;
         },
     }
 });
@@ -62,6 +63,36 @@ const store = configureStore({
         speed: speedSlice.reducer,
         diff: diffSlice.reducer,
         player: playerSlice.reducer,
+    }
+});
+
+let gameLoopIntervalId;
+
+store.subscribe(() => {
+    const { player, speed } = store.getState();
+
+    // initiate game loop with setInterval
+    if (player.state === PLAYER_PLAY && !gameLoopIntervalId) {
+        gameLoopIntervalId = window.setInterval(() => {
+            store.dispatch(setDiff({ add: [[10, 10], [3, 3]], remove: [] }));
+        }, speed.value);
+    }
+
+    if (player.state === PLAYER_PAUSE && gameLoopIntervalId) {
+        window.clearInterval(gameLoopIntervalId);
+        gameLoopIntervalId = undefined;
+    }
+
+    if (player.state === PLAYER_NEXT) {
+        store.dispatch(setDiff({ add: [[2, 2], [7, 8]], remove: [] }));
+    }
+
+    if (player.state === PLAYER_PREV) {
+        store.dispatch(setDiff({ add: [[15, 10], [5, 3]], remove: [] }));
+    }
+
+    if (player.state === PLAYER_RESET) {
+        store.dispatch(setDiff({ add: [[15, 10], [5, 3]], remove: [] }));
     }
 });
 
