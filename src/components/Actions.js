@@ -9,8 +9,8 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PLAYER_NEXT, PLAYER_PAUSE, PLAYER_PLAY, PLAYER_PREV, PLAYER_RESET } from '../config';
-import { setPlayerState } from '../store';
+import { PLAYER_PLAY } from '../config';
+import { player } from '../store';
 
 function PlayPauseIcon({ playing, ...otherProps }) {
     return (playing ? <PauseIcon {...otherProps} /> : <PlayArrowIcon {...otherProps} />);
@@ -21,20 +21,23 @@ function Actions() {
     const playing = useSelector((store) => store.player.state === PLAYER_PLAY);
 
     const handlePlayClick = (e) => {
-        const state = playing ? PLAYER_PAUSE : PLAYER_PLAY;
-        dispatch(setPlayerState(state));
+        if (playing) {
+            dispatch(player.pause());
+        } else {
+            dispatch(player.play());
+        }
     };
 
     const handleNextClick = (e) => {
-        dispatch(setPlayerState(PLAYER_NEXT));
+        dispatch(player.next());
     };
 
     const handlePreviousClick = (e) => {
-        dispatch(setPlayerState(PLAYER_PREV));
+        dispatch(player.previous());
     };
 
     const handleResetClick = (e) => {
-        dispatch(setPlayerState(PLAYER_RESET));
+        dispatch(player.reset());
     };
 
     const playPauseText = playing ? "Pause" : "Play";

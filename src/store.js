@@ -1,5 +1,5 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
-import { PLAYER_PAUSE, PLAYER_PLAY, PLAYER_PREV, PLAYER_NEXT, SPEED_DEFAULT, ZOOM_DEFAULT, PLAYER_RESET } from './config';
+import { PLAYER_PAUSE, PLAYER_PREV, PLAYER_RESET, PLAYER_NEXT, PLAYER_PLAY, SPEED_DEFAULT, ZOOM_DEFAULT } from './config';
 
 const zoomSlice = createSlice({
     name: 'zoom',
@@ -31,9 +31,21 @@ const playerSlice = createSlice({
         state: PLAYER_PAUSE
     },
     reducers: {
-        setPlayerState: (state, action) => {
-            state.state = action.payload;
+        play: (state) => {
+            state.state = PLAYER_PLAY;
         },
+        pause: (state) => {
+            state.state = PLAYER_PAUSE;
+        },
+        next: (state) => {
+            state.state = PLAYER_NEXT;
+        },
+        previous: (state) => {
+            state.state = PLAYER_PREV;
+        },
+        reset: (state) => {
+            state.state = PLAYER_RESET;
+        }
     }
 });
 
@@ -55,7 +67,7 @@ const diffSlice = createSlice({
 export const { zoomTo } = zoomSlice.actions;
 export const { setSpeed } = speedSlice.actions;
 export const { setDiff } = diffSlice.actions;
-export const { setPlayerState } = playerSlice.actions;
+export const player = playerSlice.actions;
 
 const store = configureStore({
     reducer: {
@@ -78,21 +90,12 @@ store.subscribe(() => {
         }, speed.value);
     }
 
-    if (player.state === PLAYER_PAUSE && gameLoopIntervalId) {
+    // clear loop
+    if (
+        [PLAYER_PAUSE, PLAYER_RESET, PLAYER_NEXT, PLAYER_PREV].includes(player.state)
+        && gameLoopIntervalId) {
         window.clearInterval(gameLoopIntervalId);
         gameLoopIntervalId = undefined;
-    }
-
-    if (player.state === PLAYER_NEXT) {
-        store.dispatch(setDiff({ add: [[2, 2], [7, 8]], remove: [] }));
-    }
-
-    if (player.state === PLAYER_PREV) {
-        store.dispatch(setDiff({ add: [[15, 10], [5, 3]], remove: [] }));
-    }
-
-    if (player.state === PLAYER_RESET) {
-        store.dispatch(setDiff({ add: [[15, 10], [5, 3]], remove: [] }));
     }
 });
 
