@@ -10,7 +10,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PLAYER_PLAY } from '../config';
-import { player } from '../store';
+import { player } from '../playerSlice';
 
 function PlayPauseIcon({ playing, ...otherProps }) {
     return (playing ? <PauseIcon {...otherProps} /> : <PlayArrowIcon {...otherProps} />);
