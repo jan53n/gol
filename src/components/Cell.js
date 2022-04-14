@@ -1,21 +1,16 @@
-import { useState } from 'react';
-import { CELL_DEAD, CELL_LIVE } from '../config';
+import { useDispatch } from 'react-redux';
+import { deleteCells } from '../store';
 import './Cell.css';
 
-function Cell({ row, column, state }) {
-    const [cellState, setCellState] = useState(state);
-    const isLive = cellState === CELL_LIVE;
-    const backgroundColor = isLive ? 'yellow' : 'unset';
+function Cell({ row, column }) {
+    const dispatch = useDispatch();
 
-    const handleClick = () => {
-        if (isLive) {
-            setCellState(CELL_DEAD);
-        } else {
-            setCellState(CELL_LIVE);
-        }
+    const handler = (e) => {
+        e.stopPropagation();
+        dispatch(deleteCells([row, column]));
     };
 
-    return (<div onClick={handleClick} style={{ backgroundColor, gridColumn: column, gridRow: row }}></div>);
+    return (<div onClick={handler} style={{ backgroundColor: 'yellow', gridColumn: column, gridRow: row }}></div>);
 }
 
 export default Cell;

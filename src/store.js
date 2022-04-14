@@ -1,4 +1,5 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
+import { List, Set } from 'immutable';
 import { SPEED_DEFAULT, ZOOM_DEFAULT } from './config';
 import playerSlice from './playerSlice';
 import playMiddleware from './playMiddleware';
@@ -27,17 +28,17 @@ const speedSlice = createSlice({
     }
 });
 
-const diffSlice = createSlice({
-    name: 'diff',
+const cellSlice = createSlice({
+    name: 'cells',
     initialState: {
-        add: [],
-        remove: [],
-        history: [],
+        cells: Set(),
     },
     reducers: {
-        setDiff: (state, action) => {
-            state.add = action.payload.add;
-            state.remove = action.payload.remove;
+        setCells: (state, action) => {
+            state.cells = state.cells.add(List(action.payload));
+        },
+        deleteCells: (state, action) => {
+            state.cells = state.cells.delete(List(action.payload));
         },
     }
 });
@@ -46,7 +47,7 @@ const store = configureStore({
     reducer: {
         zoom: zoomSlice.reducer,
         speed: speedSlice.reducer,
-        diff: diffSlice.reducer,
+        cells: cellSlice.reducer,
         player: playerSlice.reducer,
     },
     middleware: [
@@ -56,5 +57,5 @@ const store = configureStore({
 
 export const { zoomTo } = zoomSlice.actions;
 export const { setSpeed } = speedSlice.actions;
-export const { setDiff } = diffSlice.actions;
+export const { setCells, deleteCells } = cellSlice.actions;
 export default store;
