@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Cell from './Cell';
 import Actions from './Actions';
 import { CELL_SIZE, GRID_SIZE } from '../config';
-import { setCells } from '../store';
+import { setCells } from '../cellSlice';
 
 function Grid() {
     const dispatch = useDispatch();
@@ -49,7 +49,11 @@ function Grid() {
  * @return {[number, number]}
  */
 function calculateRcFromClientCoords(e, cellSize) {
-    return [4, 4];
+    var rect = e.target.getBoundingClientRect();
+    var x = Math.ceil((e.clientX - rect.left) / cellSize);
+    var y = Math.ceil((e.clientY - rect.top) / cellSize);
+    console.log(x, y);
+    return [y, x];
 }
 
 export default Grid;

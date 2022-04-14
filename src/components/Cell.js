@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { deleteCells } from '../store';
+import { deleteCells } from '../cellSlice';
 import './Cell.css';
 
 function Cell({ row, column }) {
