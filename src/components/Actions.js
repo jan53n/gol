@@ -19,6 +19,7 @@ function PlayPauseIcon({ playing, ...otherProps }) {
 function Actions() {
     const dispatch = useDispatch();
     const playing = useSelector((store) => store.player.state === PLAYER_PLAY);
+    const generation = useSelector((store) => store.cells.generation);
 
     const handlePlayClick = (e) => {
         if (playing) {
@@ -73,7 +74,7 @@ function Actions() {
                     <GridConfig />
 
                     <div style={{ marginLeft: 'auto', paddingRight: '12px' }}>
-                        <Badge badgeContent={4} color="primary">
+                        <Badge badgeContent={generation} color="primary">
                             <AccessTimeIcon />
                         </Badge>
                     </div>

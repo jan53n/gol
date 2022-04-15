@@ -52,7 +52,6 @@ function calculateRcFromClientCoords(e, cellSize) {
     var rect = e.target.getBoundingClientRect();
     var x = Math.ceil((e.clientX - rect.left) / cellSize);
     var y = Math.ceil((e.clientY - rect.top) / cellSize);
-    console.log(x, y);
     return [y, x];
 }
 
