@@ -3,15 +3,14 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Cell from './Cell';
 import Actions from './Actions';
-import { CELL_SIZE, GRID_SIZE } from '../config';
+import { CELL_SIZE, GRID_SIZE, GRID_GAP } from '../config';
 import { setCells } from '../cellSlice';
 
 function Grid() {
     const dispatch = useDispatch();
 
     const zoomed = useSelector(({ zoom }) => {
-        const _z = (zoom.value * CELL_SIZE) / 100;
-        return CELL_SIZE - _z;
+        return CELL_SIZE - (zoom.value * CELL_SIZE) / 100;
     });
 
     const cells = useSelector(({ cells }) => {
@@ -32,6 +31,7 @@ function Grid() {
             <div onClick={handleClick}>
                 <div className='grid' style={
                     {
+                        gridGap: GRID_GAP,
                         gridTemplateColumns: `repeat(${GRID_SIZE}, ${zoomed}px)`,
                         gridTemplateRows: `repeat(${GRID_SIZE}, ${zoomed}px)`,
                     }
@@ -51,9 +51,10 @@ function Grid() {
  * @return {[number, number]}
  */
 function calculateRcFromClientCoords(e, cellSize) {
-    var rect = e.target.getBoundingClientRect();
-    var x = Math.ceil((e.clientX - rect.left) / cellSize);
-    var y = Math.ceil((e.clientY - rect.top) / cellSize);
+    const rect = e.target.getBoundingClientRect();
+    const size = cellSize + GRID_GAP;
+    const x = Math.ceil((e.clientX - rect.left) / size);
+    const y = Math.ceil((e.clientY - rect.top) / size);
     return [y, x];
 }
 

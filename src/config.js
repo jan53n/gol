@@ -1,4 +1,5 @@
 export const GRID_SIZE = 1000;
+export const GRID_GAP = 2;
 export const CELL_SIZE = 50;
 export const ZOOM_MIN = 0;
 export const ZOOM_MAX = 100;
