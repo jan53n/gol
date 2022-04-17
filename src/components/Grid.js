@@ -28,17 +28,19 @@ function Grid() {
     });
 
     return (
-        <div onClick={handleClick}>
-            <div className='grid' style={
-                {
-                    gridTemplateColumns: `repeat(${GRID_SIZE}, ${zoomed}px)`,
-                    gridTemplateRows: `repeat(${GRID_SIZE}, ${zoomed}px)`,
-                }
-            }>
-                {cellList}
+        <React.Fragment>
+            <div onClick={handleClick}>
+                <div className='grid' style={
+                    {
+                        gridTemplateColumns: `repeat(${GRID_SIZE}, ${zoomed}px)`,
+                        gridTemplateRows: `repeat(${GRID_SIZE}, ${zoomed}px)`,
+                    }
+                }>
+                    {cellList}
+                </div>
             </div>
             <Actions></Actions>
-        </div>
+        </React.Fragment>
     );
 }
 

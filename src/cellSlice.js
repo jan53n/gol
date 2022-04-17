@@ -9,27 +9,32 @@ export const cellSlice = createSlice({
     },
     reducers: {
         setCells: (state, action) => {
+            const cells = action.payload;
+
+            if (cells[0] instanceof Array) {
+                return cells.forEach((cell) => {
+                    state.cells = state.cells.add(List(cell));
+                });
+            }
+
             state.cells = state.cells.add(List(action.payload));
         },
         deleteCells: (state, action) => {
+            const cells = action.payload;
+
+            if (cells[0] instanceof Array) {
+                return cells.forEach((cell) => {
+                    state.cells = state.cells.delete(List(cell));
+                });
+            }
+
             state.cells = state.cells.delete(List(action.payload));
         },
-        setDiff: (state, action) => {
-            state.generation += 1;
-            const { add, remove } = action.payload;
-            add.forEach((cell) => {
-                state.cells = state.cells.add(List(cell));
-            });
-
-            remove.forEach((cell) => {
-                state.cells = state.cells.delete(List(cell));
-            });
-        },
-        clearCells: (state, action) => {
+        clearCells: (state) => {
             state.generation = 0;
-            state.cells = Set();
-        },
+            state.cells = state.cells.clear();
+        }
     }
 });
 
-export const { setCells, deleteCells, setDiff, clearCells } = cellSlice.actions;
+export const { setCells, deleteCells, setGeneration, revertDiff, clearCells } = cellSlice.actions;
