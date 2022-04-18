@@ -1,6 +1,6 @@
 import { createListenerMiddleware, isAnyOf } from "@reduxjs/toolkit";
 import { deleteCells, resizeHistory, setCells, setHistory } from "./cellSlice";
-import { GRID_SIZE, HISTORY_SIZE } from "./config";
+import { HISTORY_SIZE } from "./config";
 
 const cellsHistoryMiddleware = createListenerMiddleware();
 
