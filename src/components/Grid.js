@@ -53,8 +53,8 @@ function Grid() {
 function calculateRcFromClientCoords(e, cellSize) {
     const rect = e.target.getBoundingClientRect();
     const size = cellSize + GRID_GAP;
-    const x = Math.ceil((e.clientX - rect.left) / size);
-    const y = Math.ceil((e.clientY - rect.top) / size);
+    const x = Math.ceil(((e.target.scrollLeft + e.clientX) - rect.left) / size);
+    const y = Math.ceil(((e.target.scrollTop + e.clientY) - rect.top) / size);
     return [y, x];
 }
 
