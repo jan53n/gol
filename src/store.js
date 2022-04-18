@@ -2,6 +2,7 @@ import { createSlice, configureStore } from '@reduxjs/toolkit';
 import { cellSlice } from './cellSlice';
 import { SPEED_DEFAULT, ZOOM_DEFAULT } from './config';
 import playerSlice from './playerSlice';
+import { serializableMiddleware } from './serializableMiddleware';
 
 const zoomSlice = createSlice({
     name: 'zoom',
@@ -34,6 +35,10 @@ const store = configureStore({
         cells: cellSlice.reducer,
         player: playerSlice.reducer,
     },
+
+    middleware: [
+        serializableMiddleware
+    ]
 });
 
 export const { zoomTo } = zoomSlice.actions;
