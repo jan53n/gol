@@ -11,6 +11,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PLAYER_PLAY } from '../config';
 import { player } from '../playerSlice';
+import { clearCells } from '../cellSlice';
 
 function PlayPauseIcon({ playing, ...otherProps }) {
     return (playing ? <PauseIcon {...otherProps} /> : <PlayArrowIcon {...otherProps} />);
@@ -38,7 +39,7 @@ function Actions() {
     };
 
     const handleResetClick = (e) => {
-        dispatch(player.reset());
+        dispatch(clearCells());
     };
 
     const playPauseText = playing ? "Pause" : "Play";
