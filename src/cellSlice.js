@@ -17,7 +17,7 @@ export const cellSlice = createSlice({
                 });
             }
 
-            state.cells = state.cells.add(List(action.payload));
+            state.cells = state.cells.add(List(cells));
         },
         deleteCells: (state, action) => {
             const cells = action.payload;
@@ -28,7 +28,7 @@ export const cellSlice = createSlice({
                 });
             }
 
-            state.cells = state.cells.delete(List(action.payload));
+            state.cells = state.cells.delete(List(cells));
         },
         clearCells: (state) => {
             state.generation = 0;
