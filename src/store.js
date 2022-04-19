@@ -2,7 +2,8 @@ import { createSlice, configureStore } from '@reduxjs/toolkit';
 import cellsHistoryMiddleware from './cellsHistoryMiddleware';
 import { cellSlice } from './cellSlice';
 import cellsUndoMiddleware from './cellsUndoMiddleware';
-import { SPEED_DEFAULT, ZOOM_DEFAULT } from './config';
+import { GRID_SIZE, SPEED_DEFAULT, ZOOM_DEFAULT } from './config';
+import { Universe } from './gol';
 import playerSlice from './playerSlice';
 import { serializableMiddleware } from './serializableMiddleware';
 
@@ -48,3 +49,5 @@ const store = configureStore({
 export const { zoomTo } = zoomSlice.actions;
 export const { setSpeed } = speedSlice.actions;
 export default store;
+
+console.log(new Universe(() => store.getState().cells.cells, GRID_SIZE));
