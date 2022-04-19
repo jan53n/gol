@@ -35,6 +35,7 @@ export const cellSlice = createSlice({
         clearCells: (state) => {
             state.generation = 0;
             state.cells = state.cells.clear();
+            state.history = state.history.clear();
         },
         setHistory: (state, { payload }) => {
             state.history = state.history.push(payload);
