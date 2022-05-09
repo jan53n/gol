@@ -2,10 +2,10 @@ import { createSlice, configureStore } from '@reduxjs/toolkit';
 import cellsHistoryMiddleware from './cellsHistoryMiddleware';
 import { cellSlice } from './cellSlice';
 import cellsUndoMiddleware from './cellsUndoMiddleware';
-import { GRID_SIZE, SPEED_DEFAULT, ZOOM_DEFAULT } from './config';
-import { Universe } from './gol';
+import { SPEED_DEFAULT, ZOOM_DEFAULT } from './config';
 import playerSlice from './playerSlice';
 import { serializableMiddleware } from './serializableMiddleware';
+import syncWorkerMiddleware from './syncWorkerMiddleware';
 
 const zoomSlice = createSlice({
     name: 'zoom',
@@ -43,11 +43,10 @@ const store = configureStore({
         serializableMiddleware,
         cellsHistoryMiddleware,
         cellsUndoMiddleware,
+        syncWorkerMiddleware
     ]
 });
 
 export const { zoomTo } = zoomSlice.actions;
 export const { setSpeed } = speedSlice.actions;
 export default store;
-
-console.log(new Universe(() => store.getState().cells.cells, GRID_SIZE));

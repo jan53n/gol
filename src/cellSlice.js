@@ -37,6 +37,17 @@ export const cellSlice = createSlice({
             state.cells = state.cells.clear();
             state.history = state.history.clear();
         },
+        setGeneration: (state, action) => {
+            const { add, remove } = action.payload;
+
+            add.forEach((cell) => {
+                state.cells = state.cells.add(List(cell));
+            });
+
+            remove.forEach((cell) => {
+                state.cells = state.cells.delete(List(cell));
+            });
+        },
         setHistory: (state, { payload }) => {
             state.history = state.history.push(payload);
         },
@@ -49,4 +60,4 @@ export const cellSlice = createSlice({
     }
 });
 
-export const { setCells, deleteCells, setGeneration, revertDiff, clearCells, setHistory, removeLatestHistoryItem, resizeHistory } = cellSlice.actions;
+export const { setCells, deleteCells, revertDiff, clearCells, setHistory, removeLatestHistoryItem, resizeHistory, setGeneration } = cellSlice.actions;
