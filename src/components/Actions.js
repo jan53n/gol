@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PLAYER_PLAY } from '../config';
 import { player } from '../playerSlice';
 import { clearCells } from '../cellSlice';
+import worker from '../worker';
 
 function PlayPauseIcon({ playing, ...otherProps }) {
     return (playing ? <PauseIcon {...otherProps} /> : <PlayArrowIcon {...otherProps} />);
@@ -32,6 +33,7 @@ function Actions() {
 
     const handleNextClick = (e) => {
         dispatch(player.next());
+        worker.postMessage({ type: 'getGeneration' });
     };
 
     const handlePreviousClick = (e) => {

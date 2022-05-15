@@ -7,7 +7,6 @@ class CellMap {
         this.height = height;
         this.length = width * height;
         this.cells = new Array(this.length).fill(0);
-        this.tempCells = new Array(this.length).fill(0);
     }
 
     setCell(x, y) {
@@ -90,6 +89,11 @@ class CellMap {
         this.cells[(cell + yobelow + xoright)] -= 2;
     }
 
+    getCellState(x, y) {
+        const cell = (y * this.width) + x;
+        return this.cells[cell] & 0x01;
+    }
+
     nextGeneration() {
         const diff = { add: [], remove: [] };
         const [w, h] = [this.width, this.height];
@@ -109,12 +113,12 @@ class CellMap {
 
                 if (this.cells[cell] & 0x01) {
 
-                    if (count !== 2 && count !== 3) {
+                    if (count !== 3 && count !== 4) {
                         this.clearCell(x, y);
                         diff.remove.push([x, y]);
                     }
                 } else {
-                    if (count === 3) {
+                    if (count === 4) {
                         this.setCell(x, y);
                         diff.add.push([x, y]);
                     }
@@ -138,6 +142,7 @@ function listenForAction(type, callback) {
 }
 
 let started = false;
+let instance;
 
 listenForAction('config', (action) => {
 
@@ -148,7 +153,7 @@ listenForAction('config', (action) => {
     started = true;
 
     const { width, height } = action.payload;
-    const instance = new CellMap(width, height);
+    instance = new CellMap(width, height);
 
     listenForAction('getGeneration', () => {
         const generation = instance.nextGeneration();
@@ -156,6 +161,7 @@ listenForAction('config', (action) => {
     });
 
     listenForAction('cells/setCells', (action) => {
+        console.log(action);
         const [x, y] = action.payload;
         instance.setCell(x, y);
     });
