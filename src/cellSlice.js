@@ -10,7 +10,7 @@ export const cellSlice = createSlice({
         generation: 0,
     },
     reducers: {
-        setCells: (state, action) => {
+        setCell: (state, action) => {
             const cells = action.payload;
 
             if (cells[0] instanceof Array) {
@@ -21,7 +21,7 @@ export const cellSlice = createSlice({
 
             state.cells = state.cells.add(List(cells));
         },
-        deleteCells: (state, action) => {
+        deleteCell: (state, action) => {
             const cells = action.payload;
 
             if (cells[0] instanceof Array) {
@@ -60,4 +60,4 @@ export const cellSlice = createSlice({
     }
 });
 
-export const { setCells, deleteCells, revertDiff, clearCells, setHistory, removeLatestHistoryItem, resizeHistory, setGeneration } = cellSlice.actions;
+export const { setCell, deleteCell, revertDiff, clearCells, setHistory, removeLatestHistoryItem, resizeHistory, setGeneration } = cellSlice.actions;

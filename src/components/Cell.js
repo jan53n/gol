@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { deleteCells } from '../cellSlice';
+import { deleteCell } from '../cellSlice';
 import './Cell.css';
 
 function Cell({ row, column }) {
@@ -7,7 +7,7 @@ function Cell({ row, column }) {
 
     const handler = (e) => {
         e.stopPropagation();
-        dispatch(deleteCells([row, column]));
+        dispatch(deleteCell([row, column]));
     };
 
     return (<div onClick={handler} style={{ backgroundColor: 'yellow', gridColumn: column, gridRow: row }}></div>);

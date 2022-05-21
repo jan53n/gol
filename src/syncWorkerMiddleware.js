@@ -1,5 +1,5 @@
 import { createListenerMiddleware, isAnyOf } from "@reduxjs/toolkit";
-import { deleteCells, setCells, setGeneration } from "./cellSlice";
+import { deleteCell, setCell, setGeneration } from "./cellSlice";
 import worker from "./worker";
 import store from "./store";
 
@@ -8,7 +8,7 @@ console.log(worker);
 const syncWorkerMiddleware = createListenerMiddleware();
 
 syncWorkerMiddleware.startListening({
-    matcher: isAnyOf(setCells, deleteCells),
+    matcher: isAnyOf(setCell, deleteCell),
     effect: (action, _listenerApi) => {
         worker.postMessage(action);
     }

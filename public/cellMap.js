@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-globals */
-
 class CellMap {
 
     constructor(height, width) {
@@ -94,8 +92,8 @@ class CellMap {
         return this.cells[cell] & 0x01;
     }
 
-    nextGeneration() {
-        const diff = { add: [], remove: [] };
+    *nextGeneration() {
+        const cells = [...this.cells];
         const [w, h] = [this.width, this.height];
         let cell = 0;
 
@@ -104,23 +102,23 @@ class CellMap {
             loop1:
             do {
 
-                while (this.cells[cell] === 0) {
+                while (cells[cell] == 0) {
                     cell++;
                     if (++x >= w) continue loop1;
                 }
 
-                const count = this.cells[cell >> 1];
+                const count = cells[cell] >> 1;
 
-                if (this.cells[cell] & 0x01) {
+                if (cells[cell] & 0x01) {
 
-                    if (count !== 3 && count !== 4) {
+                    if (count != 2 && count != 3) {
                         this.clearCell(x, y);
-                        diff.remove.push([x, y]);
+                        yield [x, y, false];
                     }
                 } else {
-                    if (count === 4) {
+                    if (count == 3) {
                         this.setCell(x, y);
-                        diff.add.push([x, y]);
+                        yield [x, y, true];
                     }
                 }
 
@@ -128,8 +126,6 @@ class CellMap {
 
             } while (++x < w);
         }
-
-        return diff;
     }
 }
 
@@ -144,7 +140,7 @@ function listenForAction(type, callback) {
 let started = false;
 let instance;
 
-listenForAction('config', (action) => {
+listenForAction('map/config', (action) => {
 
     if (started) {
         return;
@@ -155,18 +151,20 @@ listenForAction('config', (action) => {
     const { width, height } = action.payload;
     instance = new CellMap(width, height);
 
-    listenForAction('getGeneration', () => {
+    listenForAction('map/next', () => {
         const generation = instance.nextGeneration();
-        self.postMessage({ type: 'generation', payload: generation });
+
+        for (const payload of generation) {
+            self.postMessage({ type: 'cells/drawCell', payload });
+        }
     });
 
-    listenForAction('cells/setCells', (action) => {
-        console.log(action);
+    listenForAction('cells/setCell', (action) => {
         const [x, y] = action.payload;
         instance.setCell(x, y);
     });
 
-    listenForAction('cells/deleteCells', (action) => {
+    listenForAction('cells/deleteCell', (action) => {
         const [x, y] = action.payload;
         instance.clearCell(x, y);
     });

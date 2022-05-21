@@ -1,11 +1,11 @@
 import { createListenerMiddleware, isAnyOf } from "@reduxjs/toolkit";
-import { deleteCells, resizeHistory, setCells, setHistory } from "./cellSlice";
+import { deleteCell, resizeHistory, setCell, setHistory } from "./cellSlice";
 import { HISTORY_SIZE } from "./config";
 
 const cellsHistoryMiddleware = createListenerMiddleware();
 
 cellsHistoryMiddleware.startListening({
-    matcher: isAnyOf(setCells, deleteCells),
+    matcher: isAnyOf(setCell, deleteCell),
     effect: (action, listenerApi) => {
 
         const { cells: { history } } = listenerApi.getState();

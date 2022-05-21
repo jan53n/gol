@@ -1,5 +1,5 @@
 import { createListenerMiddleware } from "@reduxjs/toolkit";
-import { deleteCells, removeLatestHistoryItem, setCells } from "./cellSlice";
+import { deleteCell, removeLatestHistoryItem, setCell } from "./cellSlice";
 import { player } from "./playerSlice";
 
 const cellsUndoMiddleware = createListenerMiddleware();
@@ -18,10 +18,10 @@ cellsUndoMiddleware.startListening({
         lastHistoryItem.payload.skipHistory = true;
         listenerApi.dispatch(removeLatestHistoryItem());
 
-        if (lastHistoryItem.type === "cells/setCells") {
-            listenerApi.dispatch(deleteCells(lastHistoryItem.payload));
+        if (lastHistoryItem.type === "cells/setCell") {
+            listenerApi.dispatch(deleteCell(lastHistoryItem.payload));
         } else {
-            listenerApi.dispatch(setCells(lastHistoryItem.payload));
+            listenerApi.dispatch(setCell(lastHistoryItem.payload));
         }
     }
 });

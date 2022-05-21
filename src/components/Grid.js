@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Cell from './Cell';
 import Actions from './Actions';
 import { CELL_SIZE, GRID_SIZE, GRID_GAP } from '../config';
-import { setCells } from '../cellSlice';
+import { setCell } from '../cellSlice';
 
 function Grid() {
     const dispatch = useDispatch();
@@ -19,7 +19,7 @@ function Grid() {
 
     const handleClick = (e) => {
         const gridPosition = calculateRcFromClientCoords(e, zoomed);
-        dispatch(setCells(gridPosition));
+        dispatch(setCell(gridPosition));
     }
 
     const cellList = cells.map(([row, column]) => {
