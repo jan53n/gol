@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable no-restricted-globals */
 class CellMap {
 
     constructor(height, width) {
@@ -5,6 +7,7 @@ class CellMap {
         this.height = height;
         this.length = width * height;
         this.cells = new Array(this.length).fill(0);
+        this.generation = 0;
     }
 
     setCell(x, y) {
@@ -96,6 +99,7 @@ class CellMap {
         const cells = [...this.cells];
         const [w, h] = [this.width, this.height];
         let cell = 0;
+        ++this.generation;
 
         for (let y = 0; y < h; y++) {
             let x = 0;
@@ -113,12 +117,12 @@ class CellMap {
 
                     if (count != 2 && count != 3) {
                         this.clearCell(x, y);
-                        yield [x, y, false];
+                        yield [x, y, false, this.generation];
                     }
                 } else {
                     if (count == 3) {
                         this.setCell(x, y);
-                        yield [x, y, true];
+                        yield [x, y, true, this.generation];
                     }
                 }
 

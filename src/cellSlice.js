@@ -11,42 +11,29 @@ export const cellSlice = createSlice({
     },
     reducers: {
         setCell: (state, action) => {
-            const cells = action.payload;
+            const [x, y] = action.payload;
+            state.cells = state.cells.add(List([x, y]));
+        },
+        drawCell: (state, { payload: [x, y, on, generation] }) => {
+            state.generation = generation;
 
-            if (cells[0] instanceof Array) {
-                return cells.forEach((cell) => {
-                    state.cells = state.cells.add(List(cell));
-                });
+            if (on) {
+                state.cells = state.cells.add(List([x, y]));
+            } else {
+                state.cells = state.cells.delete(List([x, y]));
             }
-
-            state.cells = state.cells.add(List(cells));
         },
         deleteCell: (state, action) => {
-            const cells = action.payload;
-
-            if (cells[0] instanceof Array) {
-                return cells.forEach((cell) => {
-                    state.cells = state.cells.delete(List(cell));
-                });
-            }
-
-            state.cells = state.cells.delete(List(cells));
+            const [x, y] = action.payload;
+            state.cells = state.cells.delete(List([x, y]));
         },
         clearCells: (state) => {
             state.generation = 0;
             state.cells = state.cells.clear();
             state.history = state.history.clear();
         },
-        setGeneration: (state, action) => {
-            const { add, remove } = action.payload;
-
-            add.forEach((cell) => {
-                state.cells = state.cells.add(List(cell));
-            });
-
-            remove.forEach((cell) => {
-                state.cells = state.cells.delete(List(cell));
-            });
+        setGeneration: (state, { payload }) => {
+            state.generation = payload;
         },
         setHistory: (state, { payload }) => {
             state.history = state.history.push(payload);
@@ -60,4 +47,12 @@ export const cellSlice = createSlice({
     }
 });
 
-export const { setCell, deleteCell, revertDiff, clearCells, setHistory, removeLatestHistoryItem, resizeHistory, setGeneration } = cellSlice.actions;
+export const {
+    setCell,
+    deleteCell,
+    revertDiff,
+    clearCells,
+    setHistory,
+    removeLatestHistoryItem,
+    resizeHistory,
+    setGeneration } = cellSlice.actions;
