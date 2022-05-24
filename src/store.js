@@ -1,7 +1,5 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
-import cellsHistoryMiddleware from './cellsHistoryMiddleware';
 import { cellSlice } from './cellSlice';
-import cellsUndoMiddleware from './cellsUndoMiddleware';
 import { SPEED_DEFAULT, ZOOM_DEFAULT } from './config';
 import playerSlice from './playerSlice';
 import { serializableMiddleware } from './serializableMiddleware';
@@ -41,8 +39,6 @@ const store = configureStore({
 
     middleware: [
         serializableMiddleware,
-        cellsHistoryMiddleware,
-        cellsUndoMiddleware,
         syncWorkerMiddleware
     ]
 });

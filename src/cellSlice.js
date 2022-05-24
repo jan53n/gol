@@ -6,7 +6,6 @@ export const cellSlice = createSlice({
     name: 'cells',
     initialState: {
         cells: Set(),
-        history: List(),
         generation: 0,
     },
     reducers: {
@@ -32,17 +31,7 @@ export const cellSlice = createSlice({
         clearCells: (state) => {
             state.generation = 0;
             state.cells = state.cells.clear();
-            state.history = state.history.clear();
         },
-        setHistory: (state, { payload }) => {
-            state.history = state.history.push(payload);
-        },
-        removeLatestHistoryItem: (state) => {
-            state.history = state.history.pop();
-        },
-        resizeHistory: (state) => {
-            state.history = state.history.takeLast(HISTORY_SIZE);
-        }
     }
 });
 

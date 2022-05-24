@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { PLAYER_PAUSE, PLAYER_PREV, PLAYER_RESET, PLAYER_NEXT, PLAYER_PLAY } from './config';
+import { PLAYER_PAUSE, PLAYER_RESET, PLAYER_NEXT, PLAYER_PLAY } from './config';
 
 const playerSlice = createSlice({
     name: 'player',
@@ -15,9 +15,6 @@ const playerSlice = createSlice({
         },
         next: (state) => {
             state.state = PLAYER_NEXT;
-        },
-        previous: (state) => {
-            state.state = PLAYER_PREV;
         },
         reset: (state) => {
             state.state = PLAYER_RESET;

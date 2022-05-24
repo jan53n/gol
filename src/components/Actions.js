@@ -34,10 +34,6 @@ function Actions() {
         dispatch(player.next());
     };
 
-    const handlePreviousClick = (e) => {
-        dispatch(player.previous());
-    };
-
     const handleResetClick = (e) => {
         dispatch(clearCells());
     };
@@ -48,12 +44,6 @@ function Actions() {
         <div className='toolbar'>
             <Card>
                 <Toolbar>
-                    <Tooltip title="Previous">
-                        <IconButton onClick={handlePreviousClick} aria-label="previous">
-                            <SkipPreviousIcon />
-                        </IconButton>
-                    </Tooltip>
-
                     <Tooltip title={playPauseText}>
                         <IconButton onClick={handlePlayClick} aria-label="play/pause">
                             <PlayPauseIcon playing={playing} />
