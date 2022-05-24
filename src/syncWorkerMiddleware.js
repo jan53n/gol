@@ -1,14 +1,26 @@
 import { createListenerMiddleware, isAnyOf } from "@reduxjs/toolkit";
-import { deleteCell, setCell } from "./cellSlice";
+import { deleteCell, setCell, setGeneration } from "./cellSlice";
 import { player } from "./playerSlice";
 import store from "./store";
-import { listenForAction, sendAction } from "./worker";
+import { setIntervalSync } from "./util";
+import worker, { listenForAction, sendAction } from "./worker";
 
 const syncWorkerMiddleware = createListenerMiddleware();
-let intervalId = undefined;
+let clearPlayInterval;
 
-listenForAction('cells/drawCell', (action) => {
-    store.dispatch(action);
+function waitForNextGeneration() {
+    return new Promise((resolve, reject) => {
+        const listener = worker.addEventListener('message', ({ data }) => {
+            if (data.type === "map/generation") {
+                resolve(true);
+                worker.removeEventListener('message', listener);
+            }
+        });
+    });
+}
+
+listenForAction('map/generation', ({ payload }) => {
+    store.dispatch(setGeneration(payload));
 });
 
 syncWorkerMiddleware.startListening({
@@ -19,35 +31,33 @@ syncWorkerMiddleware.startListening({
 });
 
 syncWorkerMiddleware.startListening({
-    matcher: player.play,
-    effect: (action, listenerApi) => {
-        const { zoom } = listenerApi.getState();
-
-        if (intervalId) {
-            window.clearInterval(intervalId);
-        }
-
-        intervalId = window.setInterval(() => {
-            sendAction({ type: 'map/next' });
-        }, zoom.value);
-    }
-});
-
-syncWorkerMiddleware.startListening({
-    matcher: player.next,
+    actionCreator: player.next,
     effect: () => {
-        if (intervalId) {
-            window.clearInterval(intervalId);
-        }
-
         sendAction({ type: 'map/next' });
     }
 });
 
 syncWorkerMiddleware.startListening({
-    matcher: player.pause,
-    effect: () => {
-        window.clearInterval(intervalId);
+    matcher: isAnyOf(player.play, player.pause, player.next, player.previous),
+    effect: (action, _listenerApi) => {
+        if (clearPlayInterval) {
+            clearPlayInterval();
+            clearPlayInterval = undefined;
+        }
+    }
+});
+
+syncWorkerMiddleware.startListening({
+    actionCreator: player.play,
+    effect: (_action, listenerApi) => {
+        const zoom = listenerApi.getState().zoom.value;
+        clearPlayInterval = setIntervalSync(
+            async () => {
+                sendAction({ type: 'map/next' });
+                await waitForNextGeneration();
+            },
+            zoom
+        );
     }
 });
 

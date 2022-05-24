@@ -95,9 +95,10 @@ class CellMap {
         return this.cells[cell] & 0x01;
     }
 
-    *nextGeneration() {
+    nextGeneration() {
         const cells = [...this.cells];
         const [w, h] = [this.width, this.height];
+        const drawables = [];
         let cell = 0;
         ++this.generation;
 
@@ -117,12 +118,12 @@ class CellMap {
 
                     if (count != 2 && count != 3) {
                         this.clearCell(x, y);
-                        yield [x, y, false, this.generation];
+                        drawables.push([x, y, false]);
                     }
                 } else {
                     if (count == 3) {
                         this.setCell(x, y);
-                        yield [x, y, true, this.generation];
+                        drawables.push([x, y, true]);
                     }
                 }
 
@@ -130,6 +131,8 @@ class CellMap {
 
             } while (++x < w);
         }
+
+        return { drawables, generation: this.generation };
     }
 }
 
@@ -156,11 +159,8 @@ listenForAction('map/config', (action) => {
     instance = new CellMap(width, height);
 
     listenForAction('map/next', () => {
-        const generation = instance.nextGeneration();
-
-        for (const payload of generation) {
-            self.postMessage({ type: 'cells/drawCell', payload });
-        }
+        const payload = instance.nextGeneration();
+        self.postMessage({ type: 'map/generation', payload });
     });
 
     listenForAction('cells/setCell', (action) => {

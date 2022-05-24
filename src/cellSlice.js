@@ -14,14 +14,16 @@ export const cellSlice = createSlice({
             const [x, y] = action.payload;
             state.cells = state.cells.add(List([x, y]));
         },
-        drawCell: (state, { payload: [x, y, on, generation] }) => {
+        setGeneration: (state, { payload: { generation, drawables } }) => {
             state.generation = generation;
 
-            if (on) {
-                state.cells = state.cells.add(List([x, y]));
-            } else {
-                state.cells = state.cells.delete(List([x, y]));
-            }
+            drawables.forEach(([x, y, on]) => {
+                if (on) {
+                    state.cells = state.cells.add(List([x, y]));
+                } else {
+                    state.cells = state.cells.delete(List([x, y]));
+                }
+            });
         },
         deleteCell: (state, action) => {
             const [x, y] = action.payload;
@@ -31,9 +33,6 @@ export const cellSlice = createSlice({
             state.generation = 0;
             state.cells = state.cells.clear();
             state.history = state.history.clear();
-        },
-        setGeneration: (state, { payload }) => {
-            state.generation = payload;
         },
         setHistory: (state, { payload }) => {
             state.history = state.history.push(payload);
@@ -55,4 +54,5 @@ export const {
     setHistory,
     removeLatestHistoryItem,
     resizeHistory,
-    setGeneration } = cellSlice.actions;
+    setGeneration
+} = cellSlice.actions;
