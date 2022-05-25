@@ -145,6 +145,7 @@ function listenForAction(type, callback) {
 }
 
 let started = false;
+const m = Math.random();
 let instance;
 
 listenForAction('map/config', (action) => {
@@ -159,6 +160,7 @@ listenForAction('map/config', (action) => {
     instance = new CellMap(width, height);
 
     listenForAction('map/next', () => {
+        console.log('map/next', m);
         const payload = instance.nextGeneration();
         self.postMessage({ type: 'map/generation', payload });
     });

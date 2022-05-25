@@ -6,7 +6,6 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import GridConfig from './GridConfig';
 import PauseIcon from '@mui/icons-material/Pause';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PLAYER_PLAY } from '../config';
@@ -31,11 +30,11 @@ function Actions() {
     };
 
     const handleNextClick = (e) => {
-        dispatch(player.next());
+        dispatch(player.next(true));
     };
 
     const handleResetClick = (e) => {
-        dispatch(clearCells());
+        dispatch(player.reset());
     };
 
     const playPauseText = playing ? "Pause" : "Play";

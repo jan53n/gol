@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { List, Set } from "immutable";
-import { HISTORY_SIZE } from "./config";
 
 export const cellSlice = createSlice({
     name: 'cells',
@@ -24,6 +23,7 @@ export const cellSlice = createSlice({
                 }
             });
         },
+        generationComplete: () => { },
         deleteCell: (state, action) => {
             const [x, y] = action.payload;
             state.cells = state.cells.delete(List([x, y]));
@@ -43,5 +43,6 @@ export const {
     setHistory,
     removeLatestHistoryItem,
     resizeHistory,
-    setGeneration
+    setGeneration,
+    generationComplete,
 } = cellSlice.actions;

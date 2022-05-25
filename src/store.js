@@ -45,4 +45,5 @@ const store = configureStore({
 
 export const { zoomTo } = zoomSlice.actions;
 export const { setSpeed } = speedSlice.actions;
+
 export default store;

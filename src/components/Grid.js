@@ -1,21 +1,24 @@
 import './Grid.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Cell from './Cell';
 import Actions from './Actions';
 import { CELL_SIZE, GRID_SIZE, GRID_GAP } from '../config';
-import { setCell } from '../cellSlice';
+import { generationComplete, setCell } from '../cellSlice';
 
 function Grid() {
     const dispatch = useDispatch();
-
+    const generation = useSelector(({ cells: { generation } }) => generation);
     const zoomed = useSelector(({ zoom }) => {
         return CELL_SIZE - (zoom.value * CELL_SIZE) / 100;
     });
-
     const cells = useSelector(({ cells }) => {
         return cells.cells;
     });
+
+    useEffect(() => {
+        if (generation !== 0) dispatch(generationComplete());
+    }, [generation]);
 
     const handleClick = (e) => {
         const gridPosition = calculateRcFromClientCoords(e, zoomed);
