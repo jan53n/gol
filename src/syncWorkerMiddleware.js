@@ -2,12 +2,11 @@ import { createListenerMiddleware, isAnyOf } from "@reduxjs/toolkit";
 import { clearCells, deleteCell, generationComplete, setCell } from "./cellSlice";
 import { PLAYER_PLAY } from "./config";
 import { player } from "./playerSlice";
-import { restartWorker } from "./worker";
-import { sendAction } from "./worker";
+import { restartWorker, sendAction } from "./worker";
 
 const syncWorkerMiddleware = createListenerMiddleware();
 
-restartWorker('top');
+restartWorker();
 
 syncWorkerMiddleware.startListening({
     matcher: isAnyOf(setCell, deleteCell),
@@ -40,8 +39,8 @@ syncWorkerMiddleware.startListening({
     actionCreator: player.reset,
     effect: (_, { dispatch }) => {
         dispatch(player.pause());
-        restartWorker('reset');
         dispatch(clearCells());
+        restartWorker();
     }
 });
 

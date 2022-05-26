@@ -145,8 +145,7 @@ function listenForAction(type, callback) {
 }
 
 let started = false;
-const m = Math.random();
-let instance;
+let setCount = 0;
 
 listenForAction('map/config', (action) => {
 
@@ -157,20 +156,22 @@ listenForAction('map/config', (action) => {
     started = true;
 
     const { width, height } = action.payload;
-    instance = new CellMap(width, height);
+    const instance = new CellMap(width, height);
 
     listenForAction('map/next', () => {
-        console.log('map/next', m);
+        if (setCount === 0) return;
         const payload = instance.nextGeneration();
         self.postMessage({ type: 'map/generation', payload });
     });
 
     listenForAction('cells/setCell', (action) => {
+        ++setCount;
         const [x, y] = action.payload;
         instance.setCell(x, y);
     });
 
     listenForAction('cells/deleteCell', (action) => {
+        ++setCount;
         const [x, y] = action.payload;
         instance.clearCell(x, y);
     });
