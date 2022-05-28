@@ -10,7 +10,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PLAYER_PLAY } from '../config';
 import { player } from '../playerSlice';
-import { clearCells } from '../cellSlice';
 
 function PlayPauseIcon({ playing, ...otherProps }) {
     return (playing ? <PauseIcon {...otherProps} /> : <PlayArrowIcon {...otherProps} />);
@@ -19,7 +18,7 @@ function PlayPauseIcon({ playing, ...otherProps }) {
 function Actions() {
     const dispatch = useDispatch();
     const playing = useSelector((store) => store.player.state === PLAYER_PLAY);
-    const generation = useSelector((store) => store.cells.generation);
+    const generation = useSelector((store) => store.grid.generation);
 
     const handlePlayClick = (e) => {
         if (playing) {

@@ -161,18 +161,22 @@ listenForAction('map/config', (action) => {
     listenForAction('map/next', () => {
         if (setCount === 0) return;
         const payload = instance.nextGeneration();
-        self.postMessage({ type: 'map/generation', payload });
+        self.postMessage({ type: 'grid/draw', payload });
     });
 
-    listenForAction('cells/setCell', (action) => {
+    listenForAction('grid/draw', ({ payload: { generation, drawables } }) => {
         ++setCount;
-        const [x, y] = action.payload;
-        instance.setCell(x, y);
-    });
 
-    listenForAction('cells/deleteCell', (action) => {
-        ++setCount;
-        const [x, y] = action.payload;
-        instance.clearCell(x, y);
+        if (generation !== undefined) {
+            this.generation = generation;
+        }
+
+        for (const [x, y, on] of drawables) {
+            if (on) {
+                instance.setCell(x, y);
+            } else {
+                instance.clearCell(x, y);
+            }
+        }
     });
 });

@@ -1,5 +1,5 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
-import { cellSlice } from './cellSlice';
+import gridSlice from './cellSlice';
 import { SPEED_DEFAULT, ZOOM_DEFAULT } from './config';
 import playerSlice from './playerSlice';
 import { serializableMiddleware } from './serializableMiddleware';
@@ -33,7 +33,7 @@ const store = configureStore({
     reducer: {
         zoom: zoomSlice.reducer,
         speed: speedSlice.reducer,
-        cells: cellSlice.reducer,
+        grid: gridSlice.reducer,
         player: playerSlice.reducer,
     },
 

@@ -1,4 +1,4 @@
-import { setGeneration } from "./cellSlice";
+import { draw, setGeneration } from "./cellSlice";
 import { GRID_SIZE } from "./config";
 import store from "./store";
 
@@ -33,7 +33,7 @@ export function restartWorker() {
     worker()?.terminate();
     _worker = start();
 
-    listenForAction('map/generation', ({ payload }) => {
-        store.dispatch(setGeneration(payload));
+    listenForAction('grid/draw', ({ payload }) => {
+        store.dispatch(draw(payload));
     });
 }
