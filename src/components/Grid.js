@@ -17,7 +17,7 @@ function Grid() {
     });
 
     useEffect(() => {
-        // when render complete
+        dispatch({ type: "grid/draw/completed" });
     }, [generation]);
 
     const handleClick = (e) => {
