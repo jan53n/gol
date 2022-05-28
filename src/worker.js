@@ -1,4 +1,4 @@
-import { draw, setGeneration } from "./cellSlice";
+import { draw } from "./cellSlice";
 import { GRID_SIZE } from "./config";
 import store from "./store";
 
