@@ -1,39 +1,42 @@
-import { draw } from "./cellSlice";
-import { GRID_SIZE } from "./config";
-import store from "./store";
+export default class HandleMap {
+    constructor(config) {
+        this.config = config;
+        this._setup();
+    }
 
-let unsub;
-let _worker;
+    _setup() {
+        this.worker = new Worker("./cellMap.js");
+    }
 
-const worker = () => _worker;
+    start() {
+        this.send({ type: "map/config", payload: this.config });
+    }
 
-export function listenForAction(type, callback) {
-    const w = worker();
-    const l = w.addEventListener('message', ({ data }) => {
-        if (data.type === type) {
-            callback(data);
-        }
-    });
+    send(action) {
+        this.worker.postMessage(action);
+    }
 
-    unsub = () => w.removeEventListener('message', l);
-}
+    reset() {
+        this.send({ type: "map/reset" });
+        return this.listenAsync("map/reset/completed");
+    }
 
-function start() {
-    const _w = new Worker('./cellMap.js');
-    _w.postMessage({ type: 'map/config', payload: { width: GRID_SIZE, height: GRID_SIZE } });
-    return _w;
-}
+    listen(type, callback, options = {}) {
+        const l = this.worker.addEventListener('message', ({ data }) => {
+            if (data.type === type) {
+                callback(data);
+            }
+        }, options);
 
-export function sendAction(action) {
-    worker()?.postMessage(action);
-}
+        return () => this.worker.removeEventListener('message', l);
+    }
 
-export function restartWorker() {
-    if (unsub) unsub();
-    worker()?.terminate();
-    _worker = start();
-
-    listenForAction('grid/draw', ({ payload }) => {
-        store.dispatch(draw(payload));
-    });
+    listenAsync(type) {
+        return new Promise((resolve, reject) => {
+            const unsub = this.listen(type, (data) => {
+                resolve(data);
+                unsub();
+            });
+        });
+    }
 }
