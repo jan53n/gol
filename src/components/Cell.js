@@ -12,7 +12,7 @@ function Cell({ row, column }) {
     };
 
     return (
-        <Tooltip title={`Cell: ${row}, ${column}`}>
+        <Tooltip disableInteractive={true} title={`Cell: ${row}, ${column}`}>
             <div onClick={handler} style={{ backgroundColor: 'yellow', gridColumn: column, gridRow: row }}></div>
         </Tooltip>
     );
