@@ -24,7 +24,7 @@ export const gridSlice = createSlice({
         },
         clear: (state) => {
             state.generation = 0;
-            state.cells = state.cells.clear();
+            state.cells = Set();
         },
     }
 });

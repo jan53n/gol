@@ -1,26 +1,33 @@
 import { createListenerMiddleware, isAnyOf } from "@reduxjs/toolkit";
-import { clear } from "./cellSlice";
-import { PLAYER_PLAY } from "./config";
+import { clear, draw } from "./cellSlice";
+import { GRID_SIZE, PLAYER_PLAY } from "./config";
 import { player } from "./playerSlice";
-import { restartWorker, sendAction } from "./worker";
+import store from "./store";
+import HandleMap from "./worker";
 
 const syncWorkerMiddleware = createListenerMiddleware();
 
-restartWorker();
+const worker = new HandleMap({ width: GRID_SIZE, height: GRID_SIZE });
+
+worker.start();
+
+worker.listen("grid/draw", ({ payload }) => {
+    store.dispatch(draw(payload));
+});
 
 syncWorkerMiddleware.startListening({
     predicate: ({ type, payload }) => {
         return type === "grid/draw" && payload.generation === undefined;
     },
     effect: (action, _listenerApi) => {
-        sendAction(action);
+        worker.send(action);
     }
 });
 
 syncWorkerMiddleware.startListening({
     matcher: isAnyOf(player.next, player.play),
     effect: async () => {
-        sendAction({ type: "map/next" });
+        worker.send({ type: "map/next" });
     }
 });
 
@@ -32,17 +39,16 @@ syncWorkerMiddleware.startListening({
 
         if (playing) {
             await delay(timeout);
-            sendAction({ type: "map/next" });
+            worker.send({ type: "map/next" });
         }
     }
 });
 
 syncWorkerMiddleware.startListening({
     actionCreator: player.reset,
-    effect: (_, { dispatch }) => {
-        dispatch(player.pause());
+    effect: async (_, { dispatch }) => {
         dispatch(clear());
-        restartWorker();
+        await worker.reset();
     }
 });
 

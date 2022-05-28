@@ -17,7 +17,7 @@ function Grid() {
     });
 
     useEffect(() => {
-        dispatch({ type: "grid/draw/completed" });
+        if (generation !== 0) dispatch({ type: "grid/draw/completed" });
     }, [generation]);
 
     const handleClick = (e) => {
