@@ -17,7 +17,7 @@ function Grid() {
     });
 
     useEffect(() => {
-        if (generation !== 0) dispatch(generationComplete());
+        dispatch(generationComplete());
     }, [generation]);
 
     const handleClick = (e) => {
