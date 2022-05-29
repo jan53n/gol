@@ -63,7 +63,7 @@ function Actions() {
                     <GridConfig />
 
                     <div style={{ marginLeft: 'auto', paddingRight: '12px' }}>
-                        <Badge badgeContent={generation} color="primary">
+                        <Badge max={99999} badgeContent={generation} color="primary">
                             <AccessTimeIcon />
                         </Badge>
                     </div>
