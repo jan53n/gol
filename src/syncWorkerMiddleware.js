@@ -78,7 +78,8 @@ syncWorkerMiddleware.startListening({
 syncWorkerMiddleware.startListening({
     actionCreator: player.reset,
     effect: async (_, { dispatch }) => {
-        worker.reset();
+        await worker.reset();
+        console.log('worker reset');
         dispatch(grid.clear());
     }
 });

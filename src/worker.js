@@ -19,6 +19,7 @@ export default class HandleMap {
 
     reset() {
         this.send({ type: "map/clear" });
+        return this.listenAsync("map/clear/completed");
     }
 
     listen(type, callback, options = {}) {
@@ -29,5 +30,14 @@ export default class HandleMap {
         }, options);
 
         return () => this.worker.removeEventListener('message', l);
+    }
+
+    listenAsync(type) {
+        return new Promise((resolve) => {
+            const unsubscribe = this.listen(type, (data) => {
+                resolve(data);
+                unsubscribe();
+            });
+        });
     }
 }
