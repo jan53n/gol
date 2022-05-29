@@ -6,6 +6,7 @@ export default class HandleMap {
 
     _setup() {
         this.worker = new Worker("./cellMap.js");
+        this.worker.addEventListener('message', (({ data }) => console.log('worker', data)));
     }
 
     start() {

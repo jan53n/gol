@@ -5,9 +5,13 @@ import { player } from "./playerSlice";
 import store from "./store";
 import { setIntervalSynchronous } from "./util";
 import HandleMap from "./worker";
+import { interval, Subscription, tap } from "rxjs";
 
 const syncWorkerMiddleware = createListenerMiddleware();
-let unsubscribePlayer;
+/**
+ * @type {Subscription}
+ */
+let playerSubscription;
 const worker = new HandleMap({ width: GRID_SIZE, height: GRID_SIZE });
 
 const waitForDrawCompletion = () => {
@@ -22,17 +26,15 @@ const waitForDrawCompletion = () => {
     });
 };
 
-const clearPlay = () => {
-    if (unsubscribePlayer) {
-        unsubscribePlayer();
-        unsubscribePlayer = undefined;
-    }
-}
-
 worker.start();
 
 worker.listen("grid/draw", ({ payload }) => {
     store.dispatch(grid.draw(payload));
+});
+
+syncWorkerMiddleware.startListening({
+    predicate: () => true,
+    effect: (action) => console.log('store', action),
 });
 
 syncWorkerMiddleware.startListening({
@@ -54,7 +56,7 @@ syncWorkerMiddleware.startListening({
 syncWorkerMiddleware.startListening({
     matcher: isAnyOf(player.next, player.pause, player.reset, player.play),
     effect: async () => {
-        clearPlay();
+        playerSubscription?.unsubscribe();
     }
 });
 
@@ -62,14 +64,14 @@ syncWorkerMiddleware.startListening({
     actionCreator: player.play,
     effect: async (_, { getState }) => {
         const timeout = getState().speed.value;
-
-        unsubscribePlayer = setIntervalSynchronous(
-            async () => {
-                worker.send({ type: "map/next" });
-                await waitForDrawCompletion();
-            },
-            timeout
-        );
+        playerSubscription = interval(timeout)
+            .pipe(
+                tap(async () => {
+                    worker.send({ type: "map/next" });
+                    await waitForDrawCompletion();
+                })
+            )
+            .subscribe();
     }
 });
 
