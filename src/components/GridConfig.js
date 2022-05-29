@@ -7,11 +7,17 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import SpeedIcon from '@mui/icons-material/Speed';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import { SPEED_MAX, SPEED_MIN, ZOOM_MAX, ZOOM_MIN } from '../config';
+import { player } from '../playerSlice';
 
 function GridConfig() {
     const [open, setOpen] = React.useState(false);
     const [zoomOutValue, speedValue] = useSelector(({ zoom, speed }) => [zoom.value, speed.value]);
     const dispatch = useDispatch();
+
+    const openDialog = () => {
+        dispatch(player.pause());
+        setOpen(true);
+    }
 
     const handleZoomSliderChange = (_e, value) => {
         dispatch(zoomTo(value));
@@ -67,7 +73,7 @@ function GridConfig() {
             </Dialog>
 
             <Tooltip title="Configuration">
-                <IconButton onClick={() => setOpen(true)} aria-label="Configuration">
+                <IconButton onClick={openDialog} aria-label="Configuration">
                     <SettingsIcon />
                 </IconButton>
             </Tooltip>

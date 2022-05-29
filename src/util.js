@@ -1,17 +1,15 @@
 // https://gist.github.com/AndersDJohnson/4385908
-export function setIntervalSync(callback, delay) {
-    let intervalFunction, timeoutId;
+export function setIntervalSynchronous(func, delay) {
+    let intervalFunction, timeoutId, clear;
 
-    const clear = function () {
+    clear = function () {
         clearTimeout(timeoutId);
     };
-
-    intervalFunction = function () {
-        callback().then(() => {
-            timeoutId = setTimeout(intervalFunction, delay);
-        });
+    intervalFunction = async () => {
+        await func();
+        timeoutId = setTimeout(intervalFunction, delay);
     }
 
     timeoutId = setTimeout(intervalFunction, delay);
     return clear;
-}
+};

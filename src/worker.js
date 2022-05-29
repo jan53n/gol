@@ -17,8 +17,7 @@ export default class HandleMap {
     }
 
     reset() {
-        this.send({ type: "map/reset" });
-        return this.listenAsync("map/reset/completed");
+        this.send({ type: "map/clear" });
     }
 
     listen(type, callback, options = {}) {
@@ -29,14 +28,5 @@ export default class HandleMap {
         }, options);
 
         return () => this.worker.removeEventListener('message', l);
-    }
-
-    listenAsync(type) {
-        return new Promise((resolve, reject) => {
-            const unsub = this.listen(type, (data) => {
-                resolve(data);
-                unsub();
-            });
-        });
     }
 }

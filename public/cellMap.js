@@ -145,7 +145,6 @@ function listenForAction(type, callback) {
 }
 
 let started = false;
-let setCount = 0;
 
 listenForAction('map/config', (action) => {
 
@@ -156,21 +155,19 @@ listenForAction('map/config', (action) => {
     started = true;
 
     const { width, height } = action.payload;
-    const instance = new CellMap(width, height);
+    let instance = new CellMap(width, height);
 
     listenForAction('map/next', () => {
-        if (setCount === 0) return;
         const payload = instance.nextGeneration();
         self.postMessage({ type: 'grid/draw', payload });
     });
 
+    listenForAction('map/clear', () => {
+        instance = new CellMap(width, height);
+        self.postMessage({ type: "map/clear/completed" });
+    });
+
     listenForAction('grid/draw', ({ payload: { generation, drawables } }) => {
-        ++setCount;
-
-        if (generation !== undefined) {
-            this.generation = generation;
-        }
-
         for (const [x, y, on] of drawables) {
             if (on) {
                 instance.setCell(x, y);
