@@ -3,5 +3,6 @@ services:
     build: .
     environment:
       - GENERATE_SOURCEMAP=false
+      - PUBLIC_URL=.
     volumes:
       - "./docs:/app/build"
