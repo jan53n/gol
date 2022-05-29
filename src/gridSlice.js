@@ -31,7 +31,4 @@ export const gridSlice = createSlice({
 
 export default gridSlice;
 
-export const {
-    draw,
-    clear,
-} = gridSlice.actions;
+export const grid = gridSlice.actions;

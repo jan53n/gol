@@ -1,5 +1,5 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
-import gridSlice from './cellSlice';
+import gridSlice from './gridSlice';
 import { SPEED_DEFAULT, ZOOM_DEFAULT } from './config';
 import playerSlice from './playerSlice';
 import { serializableMiddleware } from './serializableMiddleware';

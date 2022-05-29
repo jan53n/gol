@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Cell from './Cell';
 import Actions from './Actions';
 import { CELL_SIZE, GRID_SIZE, GRID_GAP } from '../config';
-import { draw } from '../cellSlice';
+import { grid } from '../gridSlice';
 
 function Grid() {
     const dispatch = useDispatch();
@@ -18,12 +18,13 @@ function Grid() {
 
     useEffect(() => {
         if (generation !== 0) dispatch({ type: "grid/draw/completed" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [generation]);
 
     const handleClick = (e) => {
         const gridPosition = calculateRcFromClientCoords(e, zoomed);
         const payload = { drawables: [[...gridPosition, true]] };
-        dispatch(draw(payload));
+        dispatch(grid.draw(payload));
     }
 
     const cellList = cells.map(([row, column]) => {

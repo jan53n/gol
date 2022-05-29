@@ -1,5 +1,5 @@
 import { createListenerMiddleware, isAnyOf } from "@reduxjs/toolkit";
-import { clear, draw } from "./cellSlice";
+import { grid } from "./gridSlice";
 import { GRID_SIZE } from "./config";
 import { player } from "./playerSlice";
 import store from "./store";
@@ -32,7 +32,7 @@ const clearPlay = () => {
 worker.start();
 
 worker.listen("grid/draw", ({ payload }) => {
-    store.dispatch(draw(payload));
+    store.dispatch(grid.draw(payload));
 });
 
 syncWorkerMiddleware.startListening({
@@ -77,7 +77,7 @@ syncWorkerMiddleware.startListening({
     actionCreator: player.reset,
     effect: async (_, { dispatch }) => {
         worker.reset();
-        dispatch(clear());
+        dispatch(grid.clear());
     }
 });
 

@@ -1,6 +1,6 @@
 import { Tooltip } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { draw } from '../cellSlice';
+import { grid } from '../gridSlice';
 import './Cell.css';
 
 function Cell({ row, column }) {
@@ -9,7 +9,7 @@ function Cell({ row, column }) {
     const handler = (e) => {
         e.stopPropagation();
         const payload = { drawables: [[row, column]] };
-        dispatch(draw(payload));
+        dispatch(grid.draw(payload));
     };
 
     return (
