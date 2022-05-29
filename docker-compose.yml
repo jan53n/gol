@@ -4,4 +4,4 @@ services:
     environment:
       - GENERATE_SOURCEMAP=false
     volumes:
-      - "./build:/app/build"
+      - "./docs:/app/build"
