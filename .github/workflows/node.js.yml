@@ -32,4 +32,4 @@ jobs:
           REPO: self
           BRANCH: build
           FOLDER: docs
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MAKE_A_COMMIT }}
