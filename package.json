@@ -22,7 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:gh-ci": "npm run build && rm -rf docs/ && mv build docs",
+    "ci": "npm run build && push-build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
