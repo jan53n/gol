@@ -4,7 +4,7 @@ import { GRID_SIZE } from "./config";
 import { player } from "./playerSlice";
 import store from "./store";
 import HandleMap from "./worker";
-import { interval, tap } from "rxjs";
+import { concatMap, interval } from "rxjs";
 
 const syncWorkerMiddleware = createListenerMiddleware();
 let playerSubscription;
@@ -57,7 +57,7 @@ syncWorkerMiddleware.startListening({
         const timeout = getState().speed.value;
         playerSubscription = interval(timeout)
             .pipe(
-                tap(async () => {
+                concatMap(async () => {
                     worker.send({ type: "map/next" });
                     await waitForDrawCompletion();
                 })
