@@ -25,7 +25,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm install
-      - run: npm run build:gh-ci
+      - run: npm run build
   deploy:
     needs: build
     runs-on: ubuntu-latest
