@@ -1,8 +1,0 @@
-.grid {
-    display: grid;
-    overflow: scroll;
-    width: 100%;
-    height: calc(100vh - 64px);
-    padding: 2px;
-    background-color: #999999;
-}
