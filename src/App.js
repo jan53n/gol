@@ -1,6 +1,6 @@
 import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { AppBar, Badge, Box, CssBaseline, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, CssBaseline, IconButton, Toolbar, Typography } from '@mui/material';
 import GridOnIcon from '@mui/icons-material/GridOn';
 import Grid from './components/Grid';
 import GitHubIcon from '@mui/icons-material/GitHub';
