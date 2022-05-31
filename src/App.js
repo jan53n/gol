@@ -4,6 +4,7 @@ import { AppBar, Box, CssBaseline, IconButton, Toolbar, Typography } from '@mui/
 import GridOnIcon from '@mui/icons-material/GridOn';
 import Grid from './components/Grid';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import meta from "../package.json";
 
 const theme = createTheme();
 
@@ -18,7 +19,10 @@ function App() {
             GOL
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Typography color="inherit" noWrap>
+            Version {meta.version}
+          </Typography>
             <IconButton href="https://github.com/jan53n/gol" target="_blank" title="Github repository" size="large" aria-label="Github repository" color="inherit">
               <GitHubIcon />
             </IconButton>
