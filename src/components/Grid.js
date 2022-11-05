@@ -3,22 +3,22 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Cell from './Cell';
 import Actions from './Actions';
-import { CELL_SIZE, GRID_SIZE, GRID_GAP } from '../config';
+import { GRID_SIZE, GRID_GAP } from '../config';
 import { grid } from '../gridSlice';
+import { selectCells, selectGeneration, selectZoom, useZoom } from '../store';
 
 function Grid() {
     const dispatch = useDispatch();
-    const generation = useSelector(({ grid: { generation } }) => generation);
-    const zoomed = useSelector(({ zoom }) => {
-        return CELL_SIZE - (zoom.value * CELL_SIZE) / 100;
-    });
-    const cells = useSelector(({ grid }) => {
-        return grid.cells;
-    });
+    const generation = useSelector(selectGeneration);
+    const zoomed = useZoom();
+    const cells = useSelector(selectCells);
 
     useEffect(() => {
-        if (generation !== 0) dispatch({ type: "grid/draw/completed" });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        if (generation !== 0) {
+            dispatch({ type: "grid/draw/completed" });
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [generation]);
 
     const handleClick = (e) => {

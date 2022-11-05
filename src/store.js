@@ -1,9 +1,11 @@
 import { createSlice, configureStore } from '@reduxjs/toolkit';
 import gridSlice from './gridSlice';
-import { SPEED_DEFAULT, ZOOM_DEFAULT } from './config';
+import { CELL_SIZE, SPEED_DEFAULT, ZOOM_DEFAULT } from './config';
 import playerSlice from './playerSlice';
 import { serializableMiddleware } from './serializableMiddleware';
 import syncWorkerMiddleware from './syncWorkerMiddleware';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
 const zoomSlice = createSlice({
     name: 'zoom',
@@ -45,5 +47,13 @@ const store = configureStore({
 
 export const { zoomTo } = zoomSlice.actions;
 export const { setSpeed } = speedSlice.actions;
+
+export const useZoom = () => {
+    const zoom = useSelector(({ zoom }) => zoom.value);
+    return useMemo(() => CELL_SIZE - (zoom * CELL_SIZE) / 100, [zoom]);
+};
+
+export const selectCells = ({ grid }) => grid.cells;
+export const selectGeneration = ({ grid: { generation } }) => generation;
 
 export default store;
