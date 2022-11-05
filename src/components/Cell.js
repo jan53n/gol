@@ -1,4 +1,5 @@
 import { Tooltip } from '@mui/material';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { grid } from '../gridSlice';
 import './Cell.css';
@@ -19,4 +20,4 @@ function Cell({ row, column }) {
     );
 }
 
-export default Cell;
+export default React.memo(Cell);
