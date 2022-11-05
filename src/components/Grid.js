@@ -5,7 +5,7 @@ import Cell from './Cell';
 import Actions from './Actions';
 import { GRID_SIZE, GRID_GAP } from '../config';
 import { grid } from '../gridSlice';
-import { selectCells, selectGeneration, selectZoom, useZoom } from '../store';
+import { selectCells, selectGeneration, useZoom } from '../store';
 
 function Grid() {
     const dispatch = useDispatch();
