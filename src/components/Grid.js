@@ -1,5 +1,5 @@
 import './Grid.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Cell from './Cell';
 import Actions from './Actions';
@@ -27,9 +27,11 @@ function Grid() {
         dispatch(grid.draw(payload));
     }
 
-    const cellList = cells.map(([row, column]) => {
-        return (<Cell key={`${row}_${column}`} row={row} column={column} />);
-    });
+    const cellList = useMemo(() => {
+        return cells.map(([row, column]) => {
+            return (<Cell key={`${row}_${column}`} row={row} column={column} />);
+        });
+    }, [cells]);
 
     return (
         <React.Fragment>
