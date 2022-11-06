@@ -53,7 +53,4 @@ export const useZoom = () => {
     return useMemo(() => CELL_SIZE - (zoom * CELL_SIZE) / 100, [zoom]);
 };
 
-export const selectCells = ({ grid }) => grid.cells;
-export const selectGeneration = ({ grid: { generation } }) => generation;
-
 export default store;

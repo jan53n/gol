@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Cell from './Cell';
 import Actions from './Actions';
 import { GRID_SIZE, GRID_GAP } from '../config';
-import { grid } from '../gridSlice';
-import { selectCells, selectGeneration, useZoom } from '../store';
+import { grid, selectCells, selectGeneration } from '../gridSlice';
+import { useZoom } from '../store';
 
 function Grid() {
     const dispatch = useDispatch();
