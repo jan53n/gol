@@ -30,5 +30,6 @@ export const gridSlice = createSlice({
 });
 
 export default gridSlice;
-
+export const selectCells = ({ grid }) => grid.cells;
+export const selectGeneration = ({ grid: { generation } }) => generation;
 export const grid = gridSlice.actions;
