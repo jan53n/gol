@@ -29,7 +29,7 @@ function App() {
           </Box>
         </Toolbar>
       </AppBar>
-      <Grid></Grid>
+      <Grid />
     </ThemeProvider>
   );
 }
