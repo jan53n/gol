@@ -136,38 +136,37 @@ class CellMap {
     }
 }
 
-function listenForAction(type, callback) {
-    self.addEventListener('message', ({ data }) => {
+/**
+ * subscribe to a message type
+ * 
+ * @param {string} type 
+ * @param {(data: {type: string, payload: unknown}) => void} callback 
+ * @param {AddEventListenerOptions} options
+ * @return {() => void}
+ */
+function listenForAction(type, callback, options = {}) {
+    const listener = ({ data }) => {
         if (data.type === type) {
             callback(data);
         }
-    });
+    };
+
+    self.addEventListener('message', listener, options);
+
+    return () => self.removeEventListener('message', listener);
 }
 
-let started = false;
-
-listenForAction('map/config', (action) => {
-
-    if (started) {
-        return;
-    }
-
-    started = true;
+listenForAction('start', (action) => {
 
     const { width, height } = action.payload;
     let instance = new CellMap(width, height);
 
-    listenForAction('map/next', () => {
+    listenForAction('next', () => {
         const payload = instance.nextGeneration();
-        self.postMessage({ type: 'grid/draw', payload });
+        self.postMessage({ type: 'diff', payload });
     });
 
-    listenForAction('map/clear', () => {
-        instance = new CellMap(width, height);
-        self.postMessage({ type: "map/clear/completed" });
-    });
-
-    listenForAction('grid/draw', ({ payload: { generation, drawables } }) => {
+    listenForAction('diff', ({ payload: { drawables } }) => {
         for (const [x, y, on] of drawables) {
             if (on) {
                 instance.setCell(x, y);
@@ -176,4 +175,10 @@ listenForAction('map/config', (action) => {
             }
         }
     });
-});
+
+    listenForAction('flush', () => {
+        instance = undefined;
+        self.terminate();
+    });
+
+}, { once: true });
