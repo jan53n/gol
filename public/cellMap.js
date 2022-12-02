@@ -136,23 +136,15 @@ class CellMap {
     }
 }
 
-function listenForAction(type, callback) {
+function listenForAction(type, callback, options = {}) {
     self.addEventListener('message', ({ data }) => {
         if (data.type === type) {
             callback(data);
         }
-    });
+    }, options);
 }
 
-let started = false;
-
 listenForAction('map/config', (action) => {
-
-    if (started) {
-        return;
-    }
-
-    started = true;
 
     const { width, height } = action.payload;
     let instance = new CellMap(width, height);
@@ -176,4 +168,4 @@ listenForAction('map/config', (action) => {
             }
         }
     });
-});
+}, { once: true });
