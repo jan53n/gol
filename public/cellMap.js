@@ -159,7 +159,7 @@ listenForAction('map/config', (action) => {
         self.postMessage({ type: "map/clear/completed" });
     });
 
-    listenForAction('grid/draw', ({ payload: { generation, drawables } }) => {
+    listenForAction('grid/draw', ({ payload: { drawables } }) => {
         for (const [x, y, on] of drawables) {
             if (on) {
                 instance.setCell(x, y);
