@@ -1,15 +1,12 @@
 {
   "files": {
-    "main.css": "/gol/static/css/main.807630e1.css",
-    "main.js": "/gol/static/js/main.992de226.js",
-    "static/js/787.8b6a3812.chunk.js": "/gol/static/js/787.8b6a3812.chunk.js",
-    "index.html": "/gol/index.html",
-    "main.807630e1.css.map": "/gol/static/css/main.807630e1.css.map",
-    "main.992de226.js.map": "/gol/static/js/main.992de226.js.map",
-    "787.8b6a3812.chunk.js.map": "/gol/static/js/787.8b6a3812.chunk.js.map"
+    "main.css": "/gol/static/css/main.104ceeb8.css",
+    "main.js": "/gol/static/js/main.3e55ba6f.js",
+    "static/js/27.8a76e0f8.chunk.js": "/gol/static/js/27.8a76e0f8.chunk.js",
+    "index.html": "/gol/index.html"
   },
   "entrypoints": [
-    "static/css/main.807630e1.css",
-    "static/js/main.992de226.js"
+    "static/css/main.104ceeb8.css",
+    "static/js/main.3e55ba6f.js"
   ]
 }
